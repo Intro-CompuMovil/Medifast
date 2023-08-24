@@ -2,7 +2,7 @@
 
 ## Integrantes
 - Alejandro Salamanca
-- Andres Salamanca
+- Andrés Salamanca
 - Sara Peña
 - Juan Hernandez
 
