@@ -11,5 +11,6 @@ class Pacientes : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pacientes)
         var paciente = findViewById<TextView>(R.id.nombre1)
+
     }
 }
