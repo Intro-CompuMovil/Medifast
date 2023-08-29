@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="82dp"
-        android:textSize="25dp"
+        android:textSize="23dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="116dp"
         tools:ignore="MissingConstraints"
-        android:textSize="25dp"/>
+        android:textSize="23dp"/>
 
     <ImageButton
         android:id="@+id/imageButton"
