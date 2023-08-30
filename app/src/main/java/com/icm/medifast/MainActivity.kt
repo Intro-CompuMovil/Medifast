@@ -12,11 +12,15 @@ class MainActivity : AppCompatActivity() {
 
         val usuario = findViewById<Button>(R.id.button)
 
+
+
         usuario.setOnClickListener{
 
             val pasaracliente = Intent(this,UserDashBoardActivity::class.java)
             startActivity(pasaracliente)
         }
+
+
     }
 
 
