@@ -36,6 +36,7 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
             // Pass any relevant data to the new activity
             intent.putExtra("doctorName", selectedDoctor.Nombre)
             intent.putExtra("doctorSpecialty", selectedDoctor.Especilidad)
+            intent.putExtra("photo", selectedDoctor.FotoResource)
 
             startActivity(intent)
         }
