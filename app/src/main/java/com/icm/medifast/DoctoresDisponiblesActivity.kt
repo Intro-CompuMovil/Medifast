@@ -1,8 +1,10 @@
 package com.icm.medifast
 
 import DoctoresAdapter
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ListView
 
 class DoctoresDisponiblesActivity : AppCompatActivity() {
@@ -22,5 +24,21 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
         val adapter = DoctoresAdapter(this, R.layout.doctores_item, doctorsList)
         val listView: ListView = findViewById(R.id.listaDoctores) // Replace with the actual ListView ID
         listView.adapter = adapter
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            // Get the clicked doctor's information
+            Log.d("errorenposicion", "Item at position $position clicked.")
+            val selectedDoctor = doctorsList[position]
+
+            // Create an intent to open SolicitarCitaActivity
+            val intent = Intent(this, SolicitarCitaActivity::class.java)
+
+            // Pass any relevant data to the new activity
+            intent.putExtra("doctorName", selectedDoctor.Nombre)
+            intent.putExtra("doctorSpecialty", selectedDoctor.Especilidad)
+
+            startActivity(intent)
+        }
+
     }
 }
