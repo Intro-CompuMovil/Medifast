@@ -33,6 +33,9 @@
             android:name=".ProximaCita"
             android:exported="false" />
         <activity
+            android:name=".EpsClienteActivity"
+            android:exported="false" />
+        <activity
             android:name=".DoctoresDisponiblesActivity"
             android:exported="false" />
         <activity

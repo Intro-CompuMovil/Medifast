@@ -15,12 +15,16 @@ class UserDashBoardActivity : AppCompatActivity() {
             val cambiarCitas = Intent(this,DoctoresDisponiblesActivity::class.java)
             startActivity(cambiarCitas)
         }
+        val verEps = findViewById<LinearLayout>(R.id.linearLayout1)
+        verEps.setOnClickListener(){
+            val cambiarwebview = Intent(this,EpsClienteActivity::class.java)
+            startActivity(cambiarwebview)
+        }
         val RutaDoctor = findViewById<LinearLayout>(R.id.linearLayout2)
 
         RutaDoctor.setOnClickListener(){
             val atencion = Intent(this,AtencionEnRuta::class.java)
             startActivity(atencion)
         }
-
     }
 }
