@@ -25,7 +25,7 @@
             android:name=".Pacientes"
             android:exported="false" />
         <activity
-            android:name=".Registrar"
+            android:name=".Perfil_Doc"
             android:exported="false" />
         <activity
             android:name=".Perfil_Doc"
