@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -16,10 +21,19 @@
         android:theme="@style/Theme.MediFast"
         tools:targetApi="31">
         <activity
+            android:name=".Registrar"
+            android:exported="false" />
+        <activity
             android:name=".SolicitarCitaActivity"
             android:exported="false" />
-      <activity
+        <activity
+            android:name=".AtencionEnRuta"
+            android:exported="false" />
+        <activity
             android:name=".ProximaCita"
+            android:exported="false" />
+        <activity
+            android:name=".EpsClienteActivity"
             android:exported="false" />
         <activity
             android:name=".DoctoresDisponiblesActivity"
