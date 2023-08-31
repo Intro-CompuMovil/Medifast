@@ -25,7 +25,6 @@
             android:exported="false" />
         <activity
             android:name=".Perfil_Doc"
-            android:name=".Registrar"
             android:exported="false" />
         <activity
             android:name=".SolicitarCitaActivity"
