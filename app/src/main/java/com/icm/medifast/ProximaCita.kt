@@ -17,18 +17,44 @@ class ProximaCita : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proxima_cita)
 
+        val permissionsToRequest = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CAMERA
+        )
+        val permissionsNotGranted = permissionsToRequest.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (permissionsNotGranted.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                permissionsNotGranted.toTypedArray(),
+                PermissionRequestCodes.MULTIPLE_PERMISSIONS2
+            )
+        }
+
+        // Check and request location permission
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Permission is already granted, you can perform location-related tasks here
-        } else {
-            // Permission is not granted, request it
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PermissionRequestCodes.LOCATION
+            )
+        }
+
+        // Check and request camera permission
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                PermissionRequestCodes.CAMERA
             )
         }
     }
@@ -39,14 +65,15 @@ class ProximaCita : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode ==  PermissionRequestCodes.LOCATION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, you can perform location-related tasks here
+        if (requestCode == PermissionRequestCodes.MULTIPLE_PERMISSIONS2) {
+            // Check if all requested permissions were granted
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                // Both permissions were granted, handle accordingly
             } else {
-                // Permission denied, handle accordingly (e.g., show a message)
+
                 Toast.makeText(
                     this,
-                    "Access to location is required for certain features.",
+                    "Access is required for certain features.",
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -5,11 +5,15 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -27,9 +31,7 @@
         <activity
             android:name=".Perfil_Doc"
             android:exported="false" />
-        <activity
-            android:name=".Perfil_Doc"
-            android:exported="false" />
+
         <activity
             android:name=".SolicitarCitaActivity"
             android:exported="false" />
