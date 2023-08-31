@@ -12,17 +12,16 @@ class MainActivity : AppCompatActivity() {
 
         val usuario = findViewById<Button>(R.id.button)
 
-        val probar = findViewById<Button>(R.id.button2)
+        val Registrarse = findViewById<Button>(R.id.button2)
 
         usuario.setOnClickListener{
 
             val pasaracliente = Intent(this,UserDashBoardActivity::class.java)
             startActivity(pasaracliente)
         }
-        probar.setOnClickListener{
-
-            val pasarProximo = Intent(this,ProximaCita::class.java)
-            startActivity(pasarProximo)
+        Registrarse.setOnClickListener{
+            val Registrar = Intent(this,Registrar::class.java)
+            startActivity(Registrar)
         }
 
 
