@@ -11,6 +11,7 @@ import com.icm.medifast.R
 class DoctoresAdapter(context: Context, resource: Int, objects: List<Doctores>) :
     ArrayAdapter<Doctores>(context, resource, objects) {
 
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.doctores_item, parent, false)
 
