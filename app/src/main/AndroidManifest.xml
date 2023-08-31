@@ -21,6 +21,9 @@
         android:theme="@style/Theme.MediFast"
         tools:targetApi="31">
         <activity
+            android:name=".Solicitudes"
+            android:exported="false" />
+        <activity
             android:name=".Pacientes"
             android:exported="false" />
         <activity
@@ -43,7 +46,6 @@
             android:exported="false" />
         <activity
             android:name=".UserDashBoardActivity"
-
             android:exported="false" />
         <activity
             android:name=".MainActivity"
