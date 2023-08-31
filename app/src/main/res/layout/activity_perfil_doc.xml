@@ -103,7 +103,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="551dp"
-        android:text="Consulta tu horario "
+        android:text="Consulta tu horario"
         tools:ignore="MissingConstraints" />
 
     <Button
