@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="196dp"
         android:backgroundTint="@color/clarito"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="98dp"

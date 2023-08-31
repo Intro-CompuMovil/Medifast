@@ -104,7 +104,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="551dp"
         android:text="Consulta tu horario"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
 
     <Button
         android:id="@+id/button5"
