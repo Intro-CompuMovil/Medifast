@@ -128,7 +128,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/edad"
@@ -167,7 +167,7 @@
         tools:layout_editor_absoluteY="404dp" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/button8"
         android:layout_width="146dp"
         android:layout_height="41dp"
         android:text="Historial"
@@ -188,7 +188,7 @@
         tools:layout_editor_absoluteY="561dp" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/imageButton4"
         android:layout_width="98dp"
         android:layout_height="72dp"
         android:layout_marginStart="16dp"
@@ -205,7 +205,7 @@
         tools:layout_editor_absoluteY="602dp" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nombre"
@@ -213,7 +213,7 @@
         tools:layout_editor_absoluteY="573dp" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/celular"
@@ -221,7 +221,7 @@
         tools:layout_editor_absoluteY="633dp" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/correo"
@@ -229,7 +229,7 @@
         tools:layout_editor_absoluteY="573dp" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/direccion"
