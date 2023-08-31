@@ -6,6 +6,9 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.Manifest
+import android.content.Intent
+import android.provider.MediaStore
+import android.widget.Button
 import android.widget.Toast
 
 
@@ -16,6 +19,8 @@ class ProximaCita : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proxima_cita)
+
+
 
         val permissionsToRequest = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -31,6 +36,8 @@ class ProximaCita : AppCompatActivity() {
                 PermissionRequestCodes.MULTIPLE_PERMISSIONS2
             )
         }
+
+
 
         // Check and request location permission
         if (ContextCompat.checkSelfPermission(
@@ -56,6 +63,24 @@ class ProximaCita : AppCompatActivity() {
                 arrayOf(Manifest.permission.CAMERA),
                 PermissionRequestCodes.CAMERA
             )
+        }
+
+        val cameraButton = findViewById<Button>(R.id.cameraButton)
+        cameraButton.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                // Permission is already granted, open the camera.
+                openCamera()
+            } else {
+                // Permission is not granted, request it.
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PermissionRequestCodes.CAMERA)
+            }
+        }
+    }
+
+    private fun openCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            startActivityForResult(takePictureIntent, PermissionRequestCodes.REQUEST_IMAGE_CAPTURE)
         }
     }
 
