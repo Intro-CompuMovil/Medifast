@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="102dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="42dp"
         android:layout_marginEnd="103dp"
         android:text="@string/medifast"
         android:textColor="@color/black"
