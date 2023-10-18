@@ -60,7 +60,7 @@ class AtencionEnRuta : AppCompatActivity() {
                 val mapController: IMapController = binding.map.controller
                 mapController.setZoom(18.0)
                 mapController.setCenter(currentLocation)
-                val markerPosActual = createMarker(currentLocation,"Mi ubicación",0)
+                val markerPosActual = createMarker(currentLocation,"Mi ubicación",R.drawable.baseline_health_and_safety_24)
                 binding.map.overlays.add(markerPosActual)
                 val lugar = binding.ubicacion.text.toString()
                 Log.i("Lugar enviado", lugar)
@@ -256,6 +256,7 @@ class AtencionEnRuta : AppCompatActivity() {
                         roadOverlay?.outlinePaint?.strokeWidth = 10f
                         binding.map.overlays.add(roadOverlay)
                         binding.map.invalidate()
+                        Toast.makeText(this,"Route length: ${road.mLength} klm" + "Duration: ${road.mDuration / 60} min",Toast.LENGTH_LONG).show()
                     }
 
                 } else {
