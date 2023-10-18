@@ -63,14 +63,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            val intent = Intent(this, UserDashBoardActivity::class.java)
-            intent.putExtra("user", currentUser.email)
-            startActivity(intent)
+            val userName = currentUser.displayName
+            if (userName != null && userName.contains("user", ignoreCase = true)) {
+                // User is a regular user, navigate to User Dashboard
+                val intent = Intent(this, UserDashBoardActivity::class.java)
+                intent.putExtra("user", currentUser.email)
+                intent.putExtra("username", currentUser.displayName)
+                startActivity(intent)
+            } else {
+                // User is a doctor or doesn't have a valid display name, navigate to Doctor Dashboard
+                val intent = Intent(this, Perfil_Doc::class.java)
+                intent.putExtra("user", currentUser.email)
+                startActivity(intent)
+            }
         } else {
             binding.editTextText.setText("")
             binding.editTextTextPassword.setText("")
         }
     }
+
 
     private fun singInCorreoContraseña(){
 

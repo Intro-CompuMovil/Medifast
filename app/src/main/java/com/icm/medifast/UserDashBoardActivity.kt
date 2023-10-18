@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -28,7 +29,10 @@ class UserDashBoardActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
+        val usernameExtra = intent.getStringExtra("username")
+        val cleanedUsername = usernameExtra?.replace(" user", "")
 
+        binding.textView4.text = "Bienvenido \n $cleanedUsername"
         binding.imageView5.setOnClickListener{
             auth.signOut()
             val intent = Intent(this, MainActivity::class.java)
