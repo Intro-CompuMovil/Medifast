@@ -3,6 +3,8 @@ package com.icm.medifast
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 
 class UserDashBoardActivity : AppCompatActivity() {
@@ -25,6 +27,13 @@ class UserDashBoardActivity : AppCompatActivity() {
         RutaDoctor.setOnClickListener(){
             val atencion = Intent(this,AtencionEnRuta::class.java)
             startActivity(atencion)
+        }
+
+        val perfilUsuario = findViewById<Button>(R.id.perfilUsuario)
+        
+        perfilUsuario.setOnClickListener(){
+            val perfil = Intent(this, Perfil_Usuario::class.java)
+            startActivity(perfil)
         }
     }
 }

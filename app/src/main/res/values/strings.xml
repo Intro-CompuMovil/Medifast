@@ -16,4 +16,5 @@
     <string name="email">Email</string>
     <string name="registrate">Registrate</string>
     <string name="Descrpcion">La empatía y la comprensión son rasgos distintivos del enfoque del Dr. hacia la medicina pediátrica. Siempre se toma el tiempo necesario para escuchar a los niños y a sus padres, creando un entorno cómodo donde pueden expresar sus preocupaciones y preguntas. </string>
+    <string name="Nombrepaciente"> Nombre Paciente</string>
 </resources>
