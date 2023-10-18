@@ -54,9 +54,6 @@
             android:name=".UserDashBoardActivity"
             android:exported="false" />
         <activity
-            android:name=".Registrar"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
 
