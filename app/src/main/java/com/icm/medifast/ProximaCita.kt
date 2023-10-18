@@ -22,6 +22,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.icm.medifast.databinding.ActivityProximaCitaBinding
 import org.osmdroid.api.IMapController
 import org.osmdroid.bonuspack.routing.OSRMRoadManager
@@ -45,6 +49,32 @@ class ProximaCita : AppCompatActivity() {
     lateinit var roadManager: RoadManager
     private var roadOverlay: Polyline? = null
     private var PosDoctor = GeoPoint(4.6327, -74.0677)
+
+    // crear la variable para ver pedir la ubicacion
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+
+            val lastLocation = locationResult.lastLocation
+
+            // Obtener la ubicación actual
+            if (lastLocation != null){
+                val currentLocation = GeoPoint(lastLocation.latitude, lastLocation.longitude)
+                val mapController: IMapController = binding.map.controller
+                mapController.setZoom(18.0)
+                mapController.setCenter(currentLocation)
+                val markerPosActual = createMarker(currentLocation,"Mi ubicación",R.drawable.baseline_health_and_safety_24)
+                binding.map.overlays.add(markerPosActual)
+                val lugar = binding.ubicacion.text.toString()
+                Log.i("Lugar enviado", lugar)
+                drawRoute(currentLocation,lugar)
+                binding.map.invalidate()
+            }
+
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_proxima_cita)
@@ -62,6 +92,7 @@ class ProximaCita : AppCompatActivity() {
         if (lightSensor == null) {
             Toast.makeText(this, "No se encuentra el sensor de luminosidad", Toast.LENGTH_SHORT).show()
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
         val permissionsToRequest = arrayOf(
@@ -289,9 +320,9 @@ class ProximaCita : AppCompatActivity() {
     fun verificarPermisoParaMapa(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-            if (PosDoctor != null) {
-                val currentLocation = PosDoctor
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            if (location != null) {
+                val currentLocation = GeoPoint(location.latitude, location.longitude)
                 val mapController: IMapController = binding.map.controller
                 mapController.setZoom(18.0)
                 mapController.setCenter(currentLocation)

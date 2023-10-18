@@ -2,6 +2,7 @@ package com.icm.medifast
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.hardware.Sensor
@@ -45,6 +46,7 @@ class AtencionEnRuta : AppCompatActivity() {
     private lateinit var sensorEventListener: SensorEventListener
     lateinit var roadManager: RoadManager
     private var roadOverlay:Polyline? = null
+    private var PosDoctor = GeoPoint(4.6327, -74.0677)
 
     // crear la variable para ver pedir la ubicacion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -125,6 +127,11 @@ class AtencionEnRuta : AppCompatActivity() {
         //startLocationUpdates()
         cambioMapa()
         //verificarPermisoParaMapa()
+
+        binding.llamar.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            startActivity(intent)
+        }
 
 
     }
@@ -249,6 +256,8 @@ class AtencionEnRuta : AppCompatActivity() {
                     val road = roadManager.getRoad(routePoints)
                     Log.i("OSM_acticity", "Route length: ${road.mLength} klm")
                     Log.i("OSM_acticity", "Duration: ${road.mDuration / 60} min")
+                    val marcadorCasa = createMarker(foundLocation,"Hogar",R.drawable.baseline_house_24)
+                    binding.map.overlays.add(marcadorCasa)
                     if (binding.map != null) {
                         roadOverlay?.let { binding.map.overlays.remove(it) }
                         roadOverlay = RoadManager.buildRoadOverlay(road)
@@ -319,21 +328,21 @@ class AtencionEnRuta : AppCompatActivity() {
             val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (location != null) {
-                val currentLocation = GeoPoint(location.latitude, location.longitude)
+                val currentLocation = PosDoctor
                 val mapController: IMapController = binding.map.controller
                 mapController.setZoom(18.0)
                 mapController.setCenter(currentLocation)
 
-                if (currentLocation == null) {
+
                     setUpMapa()
-                    val marcadorPosicionInicial = createMarker(currentLocation, "Mi ubicación", 0)
+                    val marcadorPosicionInicial = createMarker(currentLocation, "Mi ubicación", R.drawable.baseline_health_and_safety_24)
                     binding.map.overlays.add(marcadorPosicionInicial)
                     binding.map.overlays.add(marcadorPosicionInicial)
                     val lugar = binding.ubicacion.text.toString()
                     Log.i("Lugar enviado", lugar)
                     drawRoute(currentLocation,lugar)
                     //binding.map.invalidate()
-                }
+
             }
         }
     }

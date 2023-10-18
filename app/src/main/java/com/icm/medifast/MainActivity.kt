@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         pasarDoctor.setOnClickListener{
-            val Doctor = Intent(this,Perfil_Doc::class.java)
+            val Doctor = Intent(this,AtencionEnRuta::class.java)
             startActivity(Doctor)
         }
 
