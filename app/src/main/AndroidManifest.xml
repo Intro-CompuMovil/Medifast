@@ -52,11 +52,14 @@
             android:exported="false" />
         <activity
             android:name=".UserDashBoardActivity"
-
+            android:exported="false" />
+        <activity
+            android:name=".Registrar"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
