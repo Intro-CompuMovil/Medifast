@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "887269608634",
+    "project_id": "proyectoicm-402315",
+    "storage_bucket": "proyectoicm-402315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887269608634:android:9eed1f1c4016f0e28f4683",
+        "android_client_info": {
+          "package_name": "com.icm.medifast"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg3NiFC743GShLFHphqGC-uZ7Ui4p-N-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

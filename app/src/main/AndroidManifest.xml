@@ -49,7 +49,6 @@
             android:exported="false" />
         <activity
             android:name=".UserDashBoardActivity"
-
             android:exported="false" />
         <activity
             android:name=".MainActivity"
