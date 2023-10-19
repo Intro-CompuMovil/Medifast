@@ -92,47 +92,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/citas"
-        android:layout_width="171dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="432dp"
-        android:backgroundTint="@color/clarito"
-        android:text="Citas libres "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.541"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/proximaCita"
         android:layout_width="176dp"
         android:layout_height="46dp"
-        android:layout_marginTop="492dp"
+        android:layout_marginTop="23dp"
         android:backgroundTint="@color/clarito"
         android:text="Proxima Cita"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.561"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/botonPacientes" />
 
     <Button
         android:id="@+id/horario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="500dp"
+        android:backgroundTint="@color/clarito"
         android:text="Consulta tu horario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.539"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/clarito"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/solicitudes"
         android:layout_width="167dp"
         android:layout_height="42dp"
-        android:layout_marginTop="628dp"
+        android:layout_marginTop="560dp"
         android:backgroundTint="@color/clarito"
         android:text="Solicitudes "
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,23 +140,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/phuser" />
 
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="428dp"
-        android:background="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/calendar" />
 
     <ImageView
         android:id="@+id/imageView12"
         android:layout_width="52dp"
         android:layout_height="49dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="492dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/proximaCita"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/iconclockoutline" />
@@ -177,7 +159,10 @@
         android:layout_width="52dp"
         android:layout_height="50dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/horario"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/iconeyeempty" />
@@ -186,13 +171,12 @@
         android:id="@+id/imageView14"
         android:layout_width="64dp"
         android:layout_height="49dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="560dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/solicitudes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/agenda" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
