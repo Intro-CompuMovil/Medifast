@@ -72,10 +72,6 @@
 
             android:exported="false" />
         <activity
-            android:name=".Registrar"
-            android:exported="false"
-            tools:ignore="DuplicateActivity" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
 

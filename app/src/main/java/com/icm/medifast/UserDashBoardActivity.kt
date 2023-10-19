@@ -65,6 +65,11 @@ class UserDashBoardActivity : AppCompatActivity() {
             val perfil = Intent(this, Perfil_Usuario::class.java)
             startActivity(perfil)
         }
+        val historial = findViewById<ImageView>(R.id.imageView2)
+        historial.setOnClickListener(){
+            val historial:Intent = Intent(this,Historial::class.java)
+            startActivity(historial)
+        }
     }
 
 

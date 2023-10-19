@@ -28,7 +28,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView21"
-        app:srcCompat="@tools:sample/avatars" />
+
+        tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
         android:id="@+id/editTextText3"
@@ -37,7 +38,7 @@
         android:layout_marginTop="56dp"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/Nombrepaciente"
+        android:hint="@string/Nombrepaciente"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,59 +48,62 @@
         android:id="@+id/editImagen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="81dp"
         android:text="Seleccionar Imagen"
+        app:layout_constraintBaseline_toBottomOf="@string/correo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBottomOf="@string/correo"
-        tools:layout_editor_absoluteY="602dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/camara"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="81dp"
         android:text="Camara"
+        app:layout_constraintBaseline_toBottomOf="@string/correo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.869"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="602dp"
-        app:layout_constraintBaseline_toBottomOf="@string/correo"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
         android:ems="10"
-        android:text="@string/direccion"
         android:inputType="textEmailAddress"
+        android:hint="@string/direccion"
+        app:layout_constraintBaseline_toBottomOf="@string/correo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="389dp"
-        app:layout_constraintBaseline_toBottomOf="@string/correo"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
 
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
         android:ems="10"
-        android:text="@string/celular"
         android:inputType="phone"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="465dp"
+        android:hint="@string/celular"
+        app:layout_constraintBaseline_toBottomOf="@string/direccion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBottomOf="@string/direccion"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
 
     <EditText
         android:id="@+id/editTextTextPostalAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
         android:ems="10"
-        android:text="@string/correo"
         android:inputType="textPostalAddress"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="536dp"
+        android:hint="@string/correo"
+        app:layout_constraintBaseline_toBottomOf="@string/celular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBottomOf="@string/celular"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
