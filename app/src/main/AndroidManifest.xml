@@ -33,9 +33,7 @@
         <activity
             android:name=".Horario"
             android:exported="false" />
-        <activity
-            android:name=".Solicitudes"
-            android:exported="false" />
+
         <activity
             android:name=".Perfil_Usuario"
             android:exported="false" />
