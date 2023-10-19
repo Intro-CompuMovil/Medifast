@@ -169,11 +169,9 @@ class ProximaCita : AppCompatActivity() {
 
         binding.cameraButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                // Permission is already granted, open the camera.
                 initializeFile()
                 cameraRequest.launch(camerapath)
             } else {
-                // Permission is not granted, request it.
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PermissionRequestCodes.CAMERA)
             }
         }

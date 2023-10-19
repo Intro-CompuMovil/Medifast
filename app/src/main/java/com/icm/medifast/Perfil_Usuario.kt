@@ -3,24 +3,69 @@ package com.icm.medifast
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.Button
+import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.icm.medifast.databinding.ActivityPerfilUsuarioBinding
+import com.icm.medifast.databinding.ActivityUserDashBoardBinding
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class Perfil_Usuario : AppCompatActivity() {
 
     private val GALLERY_REQUEST_CODE = 1
     private val CAMERA_REQUEST_CODE = 2
+    private lateinit var auth : FirebaseAuth
+    private lateinit var binding: ActivityPerfilUsuarioBinding
+    private lateinit var camerapath: Uri
+    private val cameraRequest = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) {loadImage(camerapath)}
+
+    private val GalleryRequest = registerForActivityResult(ActivityResultContracts.GetContent()
+    ) { loadImage(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_usuario)
+
+        binding = ActivityPerfilUsuarioBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        auth = Firebase.auth
+
+        val usernameExtra = intent.getStringExtra("username")
+
+        binding.editTextText3.setText(usernameExtra)
+
+        val userEmail = auth.currentUser?.email ?: ""
+        binding.editTextTextPostalAddress.setText(userEmail)
+        setEditableIfNotEmpty(binding.editTextTextPostalAddress, userEmail)
+
+        // Set the user's address and phone if available
+        val userDisplayName =  ""
+        binding.editTextTextEmailAddress.setText(userDisplayName)
+        setEditableIfNotEmpty(binding.editTextTextEmailAddress, userDisplayName)
+
+        val userPhoneNumber = auth.currentUser?.phoneNumber ?: ""
+        binding.editTextPhone.setText(userPhoneNumber)
+        setEditableIfNotEmpty(binding.editTextPhone, userPhoneNumber)
 
         // Verifica si tienes permiso
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -36,7 +81,22 @@ class Perfil_Usuario : AppCompatActivity() {
 
         val openGalleryButton = findViewById<Button>(R.id.editImagen)
         openGalleryButton.setOnClickListener {
-            openGallery()
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                GalleryRequest.launch("image/*") // Launch GalleryRequest
+            } else {
+                // Request permission if not granted
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    GALLERY_REQUEST_CODE
+                )
+            }
         }
 
         // Verifica si tienes permiso para acceder a la cámara
@@ -52,9 +112,23 @@ class Perfil_Usuario : AppCompatActivity() {
         }
         val openCameraButton = findViewById<Button>(R.id.camara)
         openCameraButton.setOnClickListener {
-            openCamera()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                initializeFile()
+                cameraRequest.launch(camerapath)
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PermissionRequestCodes.CAMERA)
+            }
+
         }
 
+
+    }
+
+    fun loadImage(imagepath:Uri?){
+
+        val imagestream = contentResolver.openInputStream(imagepath!!)
+        val image = BitmapFactory.decodeStream(imagestream)
+        binding.imageView5.setImageBitmap(image)
 
     }
 
@@ -121,6 +195,35 @@ class Perfil_Usuario : AppCompatActivity() {
         }
 
 
+    }
+
+    fun initializeFile() {
+        val imageFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        try {
+            val imageFile = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+            )
+
+            // Save the file path for use with ACTION_VIEW intents
+            camerapath = FileProvider.getUriForFile(
+                this,
+                applicationContext.packageName + ".fileprovider",
+                imageFile
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // Handle the error, show a toast, or log the exception
+        }
+    }
+
+
+    private fun setEditableIfNotEmpty(editText: EditText, text: String) {
+        editText.isFocusable = text.isEmpty()
+        editText.isFocusableInTouchMode = text.isEmpty()
     }
 
 
