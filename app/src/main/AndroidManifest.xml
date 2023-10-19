@@ -12,8 +12,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />
 
 
@@ -28,13 +31,27 @@
         android:theme="@style/Theme.MediFast"
         tools:targetApi="31">
         <activity
+            android:name=".Horario"
+            android:exported="false" />
+        <activity
+            android:name=".Solicitudes"
+            android:exported="false" />
+        <activity
+            android:name=".Perfil_Usuario"
+            android:exported="false" />
+        <activity
+            android:name=".Historial"
+            android:exported="false" />
+        <activity
             android:name=".Pacientes"
             android:exported="false" />
         <activity
             android:name=".Perfil_Doc"
             android:exported="false" />
+
         <activity android:name=".Registrar"
             android:exported="false"/>
+
         <activity
             android:name=".SolicitarCitaActivity"
             android:exported="false" />
