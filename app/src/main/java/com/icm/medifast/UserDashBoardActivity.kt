@@ -63,6 +63,7 @@ class UserDashBoardActivity : AppCompatActivity() {
 
         perfilUsuario.setOnClickListener(){
             val perfil = Intent(this, Perfil_Usuario::class.java)
+            perfil.putExtra("username", cleanedUsername)
             startActivity(perfil)
         }
         val historial = findViewById<ImageView>(R.id.imageView2)
