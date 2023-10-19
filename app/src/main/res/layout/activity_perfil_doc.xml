@@ -120,18 +120,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/solicitudes"
-        android:layout_width="167dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="560dp"
-        android:backgroundTint="@color/clarito"
-        android:text="Solicitudes "
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/imageView7"
@@ -171,16 +160,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/iconeyeempty" />
 
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="64dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="560dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/solicitudes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/agenda" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
