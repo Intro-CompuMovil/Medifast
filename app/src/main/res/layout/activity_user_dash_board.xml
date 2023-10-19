@@ -14,7 +14,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="16dp"
         android:text="Bienvenido \n   Usuario"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +22,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="41dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="363dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_logout_24" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -43,9 +54,9 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="-50dp"
             android:padding="10dp"
-            app:srcCompat="@drawable/calendar"
-            android:layout_marginRight="-50dp"/>
+            app:srcCompat="@drawable/calendar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,17 +182,18 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="41dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="363dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+
+    <Button
+        android:id="@+id/perfilUsuario"
+        android:layout_width="172dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/clarito"
+        android:text="Edita tu Perfil "
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_logout_24" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

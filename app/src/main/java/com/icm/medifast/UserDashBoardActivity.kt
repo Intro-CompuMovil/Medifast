@@ -3,6 +3,8 @@ package com.icm.medifast
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -57,7 +59,17 @@ class UserDashBoardActivity : AppCompatActivity() {
             startActivity(atencion)
         }
 
+        val perfilUsuario = findViewById<Button>(R.id.perfilUsuario)
 
+        perfilUsuario.setOnClickListener(){
+            val perfil = Intent(this, Perfil_Usuario::class.java)
+            startActivity(perfil)
+        }
+        val historial = findViewById<ImageView>(R.id.imageView2)
+        historial.setOnClickListener(){
+            val historial:Intent = Intent(this,Historial::class.java)
+            startActivity(historial)
+        }
     }
 
 
