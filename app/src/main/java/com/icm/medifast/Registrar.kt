@@ -10,14 +10,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.icm.medifast.databinding.ActivityRegistrarBinding
 import com.icm.medifast.databinding.ActivityUserDashBoardBinding
+import com.icm.medifast.entities.Cliente
 
 class Registrar : AppCompatActivity() {
 
     private lateinit var auth : FirebaseAuth
     private lateinit var binding: ActivityRegistrarBinding
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var myRef:DatabaseReference
+    val PATH_USERS="clientes/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_registrar)
@@ -31,6 +37,7 @@ class Registrar : AppCompatActivity() {
             if (validateForm()) {
                 val email = binding.editTextText.text.toString()
                 val password = binding.editTextTextPassword.text.toString()
+
                 registerUser(email, password)
             }
         }
@@ -42,7 +49,7 @@ class Registrar : AppCompatActivity() {
 
 
     private fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+            auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
@@ -53,7 +60,19 @@ class Registrar : AppCompatActivity() {
                         upcrb.displayName = binding.editTextText2.text.toString()+ " " + "user"
 
                         user.updateProfile(upcrb.build())
-                    }
+
+                        var cliente =  Cliente()
+                        cliente.nombre = binding.editTextText2.text.toString()
+                        cliente.contrasena = password
+                        cliente.correo = email
+
+                        //this part
+                        myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
+                        myRef.setValue(cliente)
+
+
+
+                }
                     updateUI(user)
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
