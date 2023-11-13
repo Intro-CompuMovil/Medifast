@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -32,6 +34,11 @@ class Registrar : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
+
+        val epsOptions = arrayOf("colsanidad", "alianza medicina")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, epsOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerGender.adapter = adapter
 
         binding.button.setOnClickListener {
             if (validateForm()) {
@@ -66,8 +73,12 @@ class Registrar : AppCompatActivity() {
                         cliente.contrasena = password
                         cliente.correo = email
 
+                        val selectedeps = binding.spinnerGender.selectedItem?.toString()
+                        cliente.eps = selectedeps
+
+
                         //this part
-                        myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
+                        myRef = database.getReference(selectedeps+"/"+ PATH_USERS+auth.currentUser!!.uid)
                         myRef.setValue(cliente)
 
 
@@ -125,6 +136,12 @@ class Registrar : AppCompatActivity() {
             valid = false
         } else {
             binding.editTextTextPassword.error = null
+        }
+        val selectedGenderPosition = binding.spinnerGender.selectedItemPosition
+        if (selectedGenderPosition == AdapterView.INVALID_POSITION) {
+            // No item selected
+            Toast.makeText(this, "Select a EPS from the spinner.", Toast.LENGTH_SHORT).show()
+            valid = false
         }
 
         return valid

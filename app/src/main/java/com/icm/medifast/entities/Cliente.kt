@@ -1,11 +1,11 @@
 package com.icm.medifast.entities
 
 class Cliente {
-    var nombre: String? = null
-    var direccion: String? = null
-    var celular: String? = null
-    var correo: String? = null
-    var contrasena: String? = null
-    var photo: String? = null
-    var eps: String? = null
+    var nombre: String? = ""
+    var direccion: String? = ""
+    var celular: String? = ""
+    var correo: String? = ""
+    var contrasena: String? = ""
+    var photo: String? = ""
+    var eps: String? = ""
 }

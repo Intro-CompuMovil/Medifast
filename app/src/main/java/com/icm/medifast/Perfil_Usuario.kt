@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.icm.medifast.databinding.ActivityPerfilUsuarioBinding
 import com.icm.medifast.databinding.ActivityUserDashBoardBinding
@@ -40,6 +42,10 @@ class Perfil_Usuario : AppCompatActivity() {
 
     private val GalleryRequest = registerForActivityResult(ActivityResultContracts.GetContent()
     ) { loadImage(it) }
+
+
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +125,15 @@ class Perfil_Usuario : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PermissionRequestCodes.CAMERA)
             }
 
+        }
+
+
+        binding.guardar.setOnClickListener{
+            val direccionText = binding.editTextTextEmailAddress.text.toString()
+            val corro = binding.editTextPhone.text.toString()
+            if(direccionText != "" && corro!= ""){
+
+            }
         }
 
 
