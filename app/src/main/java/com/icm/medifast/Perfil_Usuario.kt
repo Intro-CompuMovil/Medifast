@@ -36,10 +36,18 @@ class Perfil_Usuario : AppCompatActivity() {
     private lateinit var camerapath: Uri
     private val cameraRequest = registerForActivityResult(
         ActivityResultContracts.TakePicture()
-    ) {loadImage(camerapath)}
+    ) {
+        succes:Boolean-> if (succes){
+        loadImage(camerapath)
+        }
+
+    }
 
     private val GalleryRequest = registerForActivityResult(ActivityResultContracts.GetContent()
-    ) { loadImage(it) }
+    ) {uri:Uri? -> if (uri!= null){
+        loadImage(uri)
+    }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -47,16 +47,8 @@ class Perfil_Doc : AppCompatActivity() {
         }
 
         binding.horario.setOnClickListener(){
-            val intentHorario: Intent = Intent(this, Horario::class.java)
+            val intentHorario = Intent(this, Horario::class.java)
             startActivity(intentHorario)
         }
-
-        binding.solicitudes.setOnClickListener(){
-            val intentSolicitudes = Intent(this,Solicitudes::class.java)
-            startActivity(intentSolicitudes)
-        }
-
-
-
     }
 }
