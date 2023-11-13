@@ -70,7 +70,7 @@ class Registrar : AppCompatActivity() {
         if (currentUser != null) {
             val intent = Intent(this, UserDashBoardActivity::class.java)
             intent.putExtra("user", currentUser.email)
-            intent.putExtra("username", currentUser.displayName)
+            intent.putExtra("username", binding.editTextText2.text.toString())
             startActivity(intent)
             finish() // Close the current activity
         } else {

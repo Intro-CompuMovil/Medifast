@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -15,13 +16,17 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Geocoder
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Binder
+import android.os.Environment
 import android.os.StrictMode
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -36,7 +41,10 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.TilesOverlay
+import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 class ProximaCita : AppCompatActivity() {
@@ -49,6 +57,13 @@ class ProximaCita : AppCompatActivity() {
     lateinit var roadManager: RoadManager
     private var roadOverlay: Polyline? = null
     private var PosDoctor = GeoPoint(4.6327, -74.0677)
+    // variables para la camra
+    private lateinit var camerapath: Uri
+    private val cameraRequest = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) {}
+
+
 
     // crear la variable para ver pedir la ubicacion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -154,10 +169,9 @@ class ProximaCita : AppCompatActivity() {
 
         binding.cameraButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                // Permission is already granted, open the camera.
-                openCamera()
+                initializeFile()
+                cameraRequest.launch(camerapath)
             } else {
-                // Permission is not granted, request it.
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PermissionRequestCodes.CAMERA)
             }
         }
@@ -338,6 +352,30 @@ class ProximaCita : AppCompatActivity() {
                     //binding.map.invalidate()
 
             }
+        }
+    }
+
+    // Fuincion para subir la imagen a el path donde se guarda
+    fun initializeFile() {
+        val imageFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        try {
+            val imageFile = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+            )
+
+            // Save the file path for use with ACTION_VIEW intents
+            camerapath = FileProvider.getUriForFile(
+                this,
+                applicationContext.packageName + ".fileprovider",
+                imageFile
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // Handle the error, show a toast, or log the exception
         }
     }
 
