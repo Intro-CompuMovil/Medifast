@@ -8,4 +8,6 @@ class Cliente {
     var contrasena: String? = ""
     var photo: String? = ""
     var eps: String? = ""
+    var latitud: String? = ""
+    var longitud: String? = ""
 }
