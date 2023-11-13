@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,11 +21,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.icm.medifast.databinding.ActivityPerfilUsuarioBinding
 import com.icm.medifast.databinding.ActivityUserDashBoardBinding
+import com.icm.medifast.entities.Cliente
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -36,6 +42,7 @@ class Perfil_Usuario : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var binding: ActivityPerfilUsuarioBinding
     private lateinit var camerapath: Uri
+    val PATH_USERS="clientes/"
     private val cameraRequest = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) {
@@ -50,7 +57,7 @@ class Perfil_Usuario : AppCompatActivity() {
         loadImage(uri)
     }
     }
-
+    private lateinit var myUser: Cliente
 
     private val database = FirebaseDatabase.getInstance()
     private lateinit var myRef: DatabaseReference
@@ -65,6 +72,7 @@ class Perfil_Usuario : AppCompatActivity() {
         auth = Firebase.auth
 
         val usernameExtra = intent.getStringExtra("username")
+        val EPSextra = intent.getStringExtra("EPS")
 
         binding.editTextText3.setText(usernameExtra)
 
@@ -80,6 +88,11 @@ class Perfil_Usuario : AppCompatActivity() {
         val userPhoneNumber = auth.currentUser?.phoneNumber ?: ""
         binding.editTextPhone.setText(userPhoneNumber)
         setEditableIfNotEmpty(binding.editTextPhone, userPhoneNumber)
+
+
+        fetchClientInfo()
+
+
 
         // Verifica si tienes permiso
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -138,13 +151,46 @@ class Perfil_Usuario : AppCompatActivity() {
 
         binding.guardar.setOnClickListener{
             val direccionText = binding.editTextTextEmailAddress.text.toString()
-            val corro = binding.editTextPhone.text.toString()
-            if(direccionText != "" && corro!= ""){
+            val correo = binding.editTextPhone.text.toString()
+            if(direccionText != "" || correo!= ""){
+
+                updateCliente(correo,direccionText)
 
             }
         }
 
 
+    }
+
+    private fun updateCliente(correo:String,direccion:String) {
+        myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
+        myUser.correo = correo
+        myUser.direccion = direccion
+        myRef.setValue(myUser)
+    }
+
+    private fun fetchClientInfo() {
+        myRef = database.getReference("$PATH_USERS${auth.currentUser!!.uid}")
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                myUser = dataSnapshot.getValue(Cliente::class.java)!!
+                if (myUser != null) {
+                    Log.i("nombre usuario", "Encontró usuario: ${myUser.nombre}")
+                    val celular = myUser.celular
+                    val direccion = myUser.direccion
+                    //Toast.makeText(baseContext, "$celular: $direccion", Toast.LENGTH_SHORT).show()
+                    binding.editTextTextEmailAddress.setText(direccion)
+                    binding.editTextPhone.setText(celular)
+                } else {
+                    Log.w("error en la consulta", "Cliente is null")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w("error en la consulta", databaseError.toException())
+                Toast.makeText(baseContext, "Error fetching data", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun loadImage(imagepath:Uri?){

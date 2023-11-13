@@ -33,6 +33,7 @@ class UserDashBoardActivity : AppCompatActivity() {
 
         val usernameExtra = intent.getStringExtra("username")
         val cleanedUsername = usernameExtra?.replace(" user", "")
+        val EPSCliente = intent.getStringExtra("EPS")
 
         binding.textView4.text = "Bienvenido \n $cleanedUsername"
         binding.imageView5.setOnClickListener{
@@ -64,6 +65,7 @@ class UserDashBoardActivity : AppCompatActivity() {
         perfilUsuario.setOnClickListener(){
             val perfil = Intent(this, Perfil_Usuario::class.java)
             perfil.putExtra("username", cleanedUsername)
+            perfil.putExtra("EPS", EPSCliente)
             startActivity(perfil)
         }
         val historial = findViewById<ImageView>(R.id.imageView2)

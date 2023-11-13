@@ -35,7 +35,7 @@ class Registrar : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        val epsOptions = arrayOf("colsanidad", "alianza medicina")
+        val epsOptions = arrayOf("colsanidad", "alianza medica")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, epsOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerGender.adapter = adapter
@@ -78,7 +78,7 @@ class Registrar : AppCompatActivity() {
 
 
                         //this part
-                        myRef = database.getReference(selectedeps+"/"+ PATH_USERS+auth.currentUser!!.uid)
+                        myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
                         myRef.setValue(cliente)
 
 
@@ -101,6 +101,7 @@ class Registrar : AppCompatActivity() {
             val intent = Intent(this, UserDashBoardActivity::class.java)
             intent.putExtra("user", currentUser.email)
             intent.putExtra("username", binding.editTextText2.text.toString())
+            intent.putExtra("EPS", binding.spinnerGender.selectedItem?.toString())
             startActivity(intent)
             finish() // Close the current activity
         } else {
