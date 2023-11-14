@@ -28,8 +28,8 @@ class CitasAdapter(context: Context, citas: List<Cita>) : ArrayAdapter<Cita>(con
 
         // Populate the data into the template view using the data object
         cita?.let {
-            doctorNameTextView.text = "Doctor: ${it.doctor?.nombre}"
-            patientNameTextView.text = "Paciente: ${it.paciente?.nombre}"
+            doctorNameTextView.text = " ${it.doctor?.nombre}"
+            patientNameTextView.text = " ${it.paciente?.nombre}"
             hourValueTextView.text = "${it.fecha}"
         }
 

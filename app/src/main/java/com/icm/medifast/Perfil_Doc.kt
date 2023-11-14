@@ -57,7 +57,7 @@ class Perfil_Doc : AppCompatActivity() {
         val pasarProxima = findViewById<Button>(R.id.proximaCita)
 
         pasarProxima.setOnClickListener(){
-            val Pacientes = Intent(this,ProximaCita::class.java)
+            val Pacientes = Intent(this,CitasDoctor::class.java)
             startActivity(Pacientes)
         }
 
