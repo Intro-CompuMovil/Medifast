@@ -35,7 +35,7 @@ class Historial : AppCompatActivity() {
 
     private fun downloadImages(adapter: ImageAdapter) {
         val storageReference = storage.reference
-        val imagesReference = storageReference.child("images/2/recetas/")
+        val imagesReference = storageReference.child("images/${UserDashBoardActivity.myUser.id}/recetas/")
 
         imagesReference.listAll()
             .addOnSuccessListener { result ->

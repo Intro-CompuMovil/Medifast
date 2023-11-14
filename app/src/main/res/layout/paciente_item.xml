@@ -47,7 +47,8 @@
             android:layout_width="141dp"
             android:layout_height="41dp"
             android:text="Historial"
-            android:layout_gravity="end" />
+            android:layout_gravity="end"
+            android:enabled="false"/>
     </LinearLayout>
 
 

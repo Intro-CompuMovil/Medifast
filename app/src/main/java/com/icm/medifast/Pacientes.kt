@@ -45,6 +45,22 @@ class Pacientes : AppCompatActivity() {
         binding.listCitas.adapter = adapter
 
         getCitasForDoctor(auth.currentUser!!.uid)
+
+        binding.listCitas.setOnItemClickListener { parent, view, position, id ->
+            // Get the selected Cita
+            val selectedpaciente= adapter.getItem(position)
+
+            // Assuming you have an Intent to open the AtencionEnRutaActivity
+            val intent = Intent(this, Historial::class.java)
+
+            if (selectedpaciente != null) {
+                UserDashBoardActivity.myUser = selectedpaciente
+            }
+
+            // Start the AtencionEnRutaActivity
+            startActivity(intent)
+        }
+
     }
 
     private fun getCitasForDoctor(uid: String) {
