@@ -21,8 +21,8 @@ class DoctoresAdapter(context: Context, resource: Int, objects: List<Doctores>) 
         val currentDoctor = getItem(position)
         val photoResource = currentDoctor?.FotoResource ?: R.drawable.doctora1
         foto.setImageResource(photoResource)
-        nombre.text = currentDoctor?.Nombre
-        especialidad.text = currentDoctor?.Especilidad
+        nombre.text = currentDoctor?.nombre
+        especialidad.text = currentDoctor?.especialidad
 
         return view
     }

@@ -1,7 +1,12 @@
 package com.icm.medifast
 
 data class Doctores(
-    val Nombre: String,
-    val Especilidad: String,
-    val FotoResource: Int
-)
+    val nombre: String,
+    val especialidad: String,
+    val FotoResource: Int,
+    val Eps:String
+) {
+    // Constructor sin argumentos necesario para Firebase
+    constructor() : this("", "", R.drawable.doctor2,"")
+}
+

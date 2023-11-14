@@ -76,10 +76,10 @@ class SolicitarCitaActivity : AppCompatActivity() {
 
         val wearableExtender = NotificationCompat.WearableExtender()
             .setHintHideIcon(true)
-            .addAction(NotificationCompat.Action(R.drawable.phuser, "Notificacion", pendingIntent))
+            .addAction(NotificationCompat.Action(R.drawable.baseline_health_and_safety_24, "Notificacion", pendingIntent))
         // Construye la notificación
         val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.phuser)
+            .setSmallIcon(R.drawable.baseline_health_and_safety_24)
             .setContentTitle("Cita Confirmada")
             .setContentText("Tu cita con el Dr. ${Nombre} ha sido confirmada.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
