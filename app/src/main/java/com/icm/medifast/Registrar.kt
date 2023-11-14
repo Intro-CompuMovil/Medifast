@@ -79,6 +79,7 @@ class Registrar : AppCompatActivity() {
 
                         //this part
                         myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
+                        cliente.id= auth.currentUser!!.uid
                         myRef.setValue(cliente)
 
 
