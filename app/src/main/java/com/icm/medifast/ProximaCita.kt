@@ -31,6 +31,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.storage.FirebaseStorage
 import com.icm.medifast.databinding.ActivityProximaCitaBinding
 import org.osmdroid.api.IMapController
 import org.osmdroid.bonuspack.routing.OSRMRoadManager
@@ -61,8 +62,13 @@ class ProximaCita : AppCompatActivity() {
     private lateinit var camerapath: Uri
     private val cameraRequest = registerForActivityResult(
         ActivityResultContracts.TakePicture()
-    ) {}
+    ) {
+            succes:Boolean-> if (succes){
+        loadImage(camerapath)
+    }
 
+    }
+    private val storage = FirebaseStorage.getInstance()
 
 
     // crear la variable para ver pedir la ubicacion
@@ -184,6 +190,27 @@ class ProximaCita : AppCompatActivity() {
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             startActivityForResult(takePictureIntent, PermissionRequestCodes.REQUEST_IMAGE_CAPTURE)
         }
+    }
+
+    private fun uploadImageToFirebaseStorage(imageUri: Uri) {
+        val imageFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val idPersona =2
+        var storageReference = storage.reference
+        val storageRef = storageReference.child("images/recetas/${idPersona}/${imageFileName}")
+
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener { taskSnapshot ->
+                // Image uploaded successfully, you can get the download URL
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    // Now you can use 'uri' to store the download URL in your database or perform any other action
+                    Log.d("Upload", "Image uploaded successfully. Download URL: $uri")
+
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Handle unsuccessful uploads
+                Log.e("Upload", "Error uploading image", exception)
+            }
     }
 
     override fun onRequestPermissionsResult(
@@ -373,10 +400,16 @@ class ProximaCita : AppCompatActivity() {
                 applicationContext.packageName + ".fileprovider",
                 imageFile
             )
+
         } catch (e: IOException) {
             e.printStackTrace()
             // Handle the error, show a toast, or log the exception
         }
+    }
+
+    fun loadImage(imagepath:Uri?){
+        val imagestream = contentResolver.openInputStream(imagepath!!)
+        uploadImageToFirebaseStorage(imagepath)
     }
 
     // Override del onResume
