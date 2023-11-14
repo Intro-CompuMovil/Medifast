@@ -75,7 +75,7 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
                         val empData = empSnap.getValue(Doctores::class.java)
                         Log.i("Doctoranadido" , empData.toString())
                         if (empData != null) {
-                            if(empData.Eps == UserDashBoardActivity.myUser.eps)
+                            if(empData.eps == UserDashBoardActivity.myUser.eps)
                                 doctorsList.add(empData)
                         }
                     }

@@ -52,7 +52,7 @@ import java.util.Date
 
 class ProximaCita : AppCompatActivity() {
 
-    val PATH_USERS="clientes/"
+    val PATH_USERS="doctores/"
 
     private lateinit var binding: ActivityProximaCitaBinding
     //Variablers para el sensor de luz
@@ -61,7 +61,8 @@ class ProximaCita : AppCompatActivity() {
     private lateinit var sensorEventListener: SensorEventListener
     lateinit var roadManager: RoadManager
     private var roadOverlay: Polyline? = null
-    private var PosDoctor = GeoPoint(4.6327, -74.0677)
+    private var PosDoctor = GeoPoint(0, 0)
+    private var PosCliente = GeoPoint(0,0)
     // variables para la camra
     private lateinit var camerapath: Uri
     private val cameraRequest = registerForActivityResult(
@@ -94,8 +95,22 @@ class ProximaCita : AppCompatActivity() {
                 binding.map.overlays.add(markerPosActual)
                 val lugar = binding.ubicacion.text.toString()
                 Log.i("Lugar enviado", lugar)
-                //updateCliente(currentLocation.latitude.toString(),currentLocation.longitude.toString())
-                drawRoute(currentLocation,lugar)
+                PosDoctor = GeoPoint(currentLocation.latitude,currentLocation.longitude)
+                updateDoctor(currentLocation.latitude,currentLocation.longitude)
+                Log.i("Despues AAAAA", "Despues del update")
+                var longitudPaciente: String? = CitasDoctor.citaEscogidaDoctor.paciente?.longitud
+                var latitudPaciente: String? = CitasDoctor.citaEscogidaDoctor.paciente?.latitud
+                var longitudPacienteNUmero = 0.0
+                var latitudPacienteNUmero = 0.0
+                if(longitudPaciente != null  ){
+                    longitudPacienteNUmero = longitudPaciente.toDouble()
+                }
+                if(latitudPaciente != null){
+                    latitudPacienteNUmero = latitudPaciente.toDouble()
+                }
+
+                PosCliente = GeoPoint(latitudPacienteNUmero,longitudPacienteNUmero)
+                drawRoute(PosDoctor,PosCliente)
                 binding.map.invalidate()
             }
 
@@ -200,7 +215,7 @@ class ProximaCita : AppCompatActivity() {
 
     private fun uploadImageToFirebaseStorage(imageUri: Uri) {
         val imageFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val idPersona =2
+        val idPersona = CitasDoctor.citaEscogidaDoctor.paciente?.id
         var storageReference = storage.reference
         val storageRef = storageReference.child("images/${idPersona}/recetas/${imageFileName}")
 
@@ -428,6 +443,7 @@ class ProximaCita : AppCompatActivity() {
                     binding.map.overlays.add(marcadorPosicionInicial)
                     val lugar = binding.ubicacion.text.toString()
                     Log.i("Lugar enviado", lugar)
+                    updateDoctor(currentLocation.latitude,currentLocation.longitude)
                     drawRoute(currentLocation,lugar)
                     //binding.map.invalidate()
 
@@ -435,11 +451,12 @@ class ProximaCita : AppCompatActivity() {
         }
     }
 
-    private fun updateCliente(latitud:String,longitud:String) {
-        myRef = database.getReference(PATH_USERS+ UserDashBoardActivity.myUser.id)
-        UserDashBoardActivity.myUser.latitud = latitud
-        UserDashBoardActivity.myUser.longitud = longitud
-        myRef.setValue(UserDashBoardActivity.myUser)
+    private fun updateDoctor(latitud:Double ,longitud:Double) {
+        Log.i("El id del doctor", Perfil_Doc.myDoctor.id)
+        myRef = database.getReference(PATH_USERS+ Perfil_Doc.myDoctor.id)
+        Perfil_Doc.myDoctor.latitud = latitud
+        Perfil_Doc.myDoctor.longitud =  longitud
+        myRef.setValue(Perfil_Doc.myDoctor)
     }
 
     // Fuincion para subir la imagen a el path donde se guarda

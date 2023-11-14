@@ -4,17 +4,18 @@ data class Doctores(
     val nombre: String,
     val especialidad: String,
     val FotoResource: Int,
-    val Eps:String,
+    val eps:String,
     val id: String,
     var latitud:Double,
-    var longitud:Double
+    var longitud:Double,
+    var contrasena:String
 ) {
 
     // Constructor sin argumentos necesario para Firebase
 
 
 
-    constructor() : this("", "", getRandomImageResource(), "","",0.0,0.0)
+    constructor() : this("", "", getRandomImageResource(), "","",0.0,0.0,"")
 
     companion object {
         private val randomImageResources = arrayOf(
