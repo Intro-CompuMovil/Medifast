@@ -196,7 +196,7 @@ class ProximaCita : AppCompatActivity() {
         val imageFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val idPersona =2
         var storageReference = storage.reference
-        val storageRef = storageReference.child("images/recetas/${idPersona}/${imageFileName}")
+        val storageRef = storageReference.child("images/${idPersona}/recetas/${imageFileName}")
 
         storageRef.putFile(imageUri)
             .addOnSuccessListener { taskSnapshot ->
