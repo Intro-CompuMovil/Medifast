@@ -24,6 +24,8 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.icm.medifast.databinding.ActivityAtencionEnRutaBinding
 import org.osmdroid.api.IMapController
 import org.osmdroid.bonuspack.routing.OSRMRoadManager
@@ -39,14 +41,17 @@ import java.io.IOException
 class AtencionEnRuta : AppCompatActivity() {
 
     private lateinit var binding: ActivityAtencionEnRutaBinding
-
+    val PATH_USERS="clientes/"
     //Variablers para el sensor de luz
     private lateinit var sensorManager: SensorManager
     private lateinit var lightSensor: Sensor
     private lateinit var sensorEventListener: SensorEventListener
     lateinit var roadManager: RoadManager
     private var roadOverlay:Polyline? = null
-    private var PosDoctor = GeoPoint(4.6327, -74.0677)
+
+    private var PosDoctor = GeoPoint(0.0,0.0)
+    private lateinit var myRef: DatabaseReference
+    private val database = FirebaseDatabase.getInstance()
 
     // crear la variable para ver pedir la ubicacion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -62,11 +67,22 @@ class AtencionEnRuta : AppCompatActivity() {
                 val mapController: IMapController = binding.map.controller
                 mapController.setZoom(18.0)
                 mapController.setCenter(currentLocation)
-                val markerPosActual = createMarker(currentLocation,"Mi ubicación",R.drawable.baseline_health_and_safety_24)
-                binding.map.overlays.add(markerPosActual)
+
                 val lugar = binding.ubicacion.text.toString()
                 Log.i("Lugar enviado", lugar)
-                drawRoute(currentLocation,lugar)
+                updateCliente(currentLocation.latitude.toString(),currentLocation.longitude.toString())
+                 PosDoctor =
+                     citasActivity.citaEscogida.doctor?.let { GeoPoint(it.latitud, citasActivity.citaEscogida.doctor!!.longitud) }!!
+                val markerPosActual = createMarker(PosDoctor,"Mi ubicación",R.drawable.baseline_health_and_safety_24)
+                binding.map.overlays.add(markerPosActual)
+                val locationPaciente = GeoPoint(currentLocation.latitude,currentLocation.longitude)
+                if (PosDoctor != null) {
+                    drawRoute(PosDoctor,locationPaciente)
+                }
+                else{
+
+                }
+                //drawRoute(currentLocation,lugar)
                 binding.map.invalidate()
             }
 
@@ -294,6 +310,53 @@ class AtencionEnRuta : AppCompatActivity() {
 //        }
     }
 
+
+    private fun drawRoute(start: GeoPoint, finish: GeoPoint) {
+
+        val geocoder = Geocoder(this)
+
+        try {
+            if(finish != null){
+                val routePoints = ArrayList<GeoPoint>()
+                routePoints.add(start)
+                routePoints.add(finish)
+                val road = roadManager.getRoad(routePoints)
+
+                Log.i("OSM_acticity", "Route length: ${road.mLength} klm")
+                Log.i("OSM_acticity", "Duration: ${road.mDuration / 60} min")
+                val marcadorCasa = createMarker(finish,"Hogar",R.drawable.baseline_house_24)
+                binding.map.overlays.add(marcadorCasa)
+                if (binding.map != null) {
+                    roadOverlay?.let { binding.map.overlays.remove(it) }
+                    roadOverlay = RoadManager.buildRoadOverlay(road)
+                    roadOverlay?.outlinePaint?.color = Color.RED
+                    roadOverlay?.outlinePaint?.strokeWidth = 10f
+                    binding.map.overlays.add(roadOverlay)
+                    binding.map.invalidate()
+                    Toast.makeText(this,"Route length: ${road.mLength} klm" + "Duration: ${road.mDuration / 60} min",Toast.LENGTH_LONG).show()
+                }
+            }else{
+                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error searching for location", Toast.LENGTH_SHORT).show()
+        }
+//        val routePoints = ArrayList<GeoPoint>()
+//        routePoints.add(start)
+//        routePoints.add(foundLocation)
+//        val road = roadManager.getRoad(routePoints)
+//        Log.i("OSM_acticity", "Route length: ${road.mLength} klm")
+//        Log.i("OSM_acticity", "Duration: ${road.mDuration / 60} min")
+//        if (binding.map != null) {
+//            roadOverlay?.let { binding.map.overlays.remove(it) }
+//            roadOverlay = RoadManager.buildRoadOverlay(road)
+//            roadOverlay?.outlinePaint?.color = Color.RED
+//            roadOverlay?.outlinePaint?.strokeWidth = 10f
+//            binding.map.overlays.add(roadOverlay)
+//        }
+    }
     // setUp mapa
 
     fun setUpMapa(){
@@ -307,6 +370,13 @@ class AtencionEnRuta : AppCompatActivity() {
         roadManager = OSRMRoadManager(this, "ANDROID")
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
+    }
+
+    private fun updateCliente(latitud:String,longitud:String) {
+        myRef = database.getReference(PATH_USERS+ UserDashBoardActivity.myUser.id)
+        UserDashBoardActivity.myUser.latitud = latitud
+        UserDashBoardActivity.myUser.longitud = longitud
+        myRef.setValue(UserDashBoardActivity.myUser)
     }
 
     // Override del onResume
@@ -338,7 +408,7 @@ class AtencionEnRuta : AppCompatActivity() {
 
 
                     setUpMapa()
-                    val marcadorPosicionInicial = createMarker(currentLocation, "Mi ubicación", R.drawable.baseline_health_and_safety_24)
+                    val marcadorPosicionInicial = createMarker(PosDoctor, "Mi ubicación", R.drawable.baseline_health_and_safety_24)
                     binding.map.overlays.add(marcadorPosicionInicial)
                     binding.map.overlays.add(marcadorPosicionInicial)
                     val lugar = binding.ubicacion.text.toString()
