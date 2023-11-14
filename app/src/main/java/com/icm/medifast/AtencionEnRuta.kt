@@ -133,6 +133,9 @@ class AtencionEnRuta : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.textView15.text = citasActivity.citaEscogida.doctor?.nombre ?: "Adriana Juanita"
+        binding.fechafield.text = citasActivity.citaEscogida.fecha
+
 
     }
 

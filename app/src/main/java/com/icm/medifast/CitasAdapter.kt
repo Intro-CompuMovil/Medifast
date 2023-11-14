@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.icm.medifast.entities.Cita
 
-class CitasAdapter(context: Context, citas: List<String>) : ArrayAdapter<String>(context, 0, citas) {
+class CitasAdapter(context: Context, citas: List<Cita>) : ArrayAdapter<Cita>(context, 0, citas) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -27,9 +28,9 @@ class CitasAdapter(context: Context, citas: List<String>) : ArrayAdapter<String>
 
         // Populate the data into the template view using the data object
         cita?.let {
-            //doctorNameTextView.text = "Doctor: ${it.doctorName}"
-            //patientNameTextView.text = "Paciente: ${it.patientName}"
-            //hourValueTextView.text = "Hora: ${it.hour}"
+            doctorNameTextView.text = "Doctor: ${it.doctor?.nombre}"
+            patientNameTextView.text = "Paciente: ${it.paciente?.nombre}"
+            hourValueTextView.text = "${it.fecha}"
         }
 
         // Return the completed view to render on screen

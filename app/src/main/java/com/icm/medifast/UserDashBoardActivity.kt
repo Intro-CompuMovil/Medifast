@@ -69,7 +69,7 @@ class UserDashBoardActivity : AppCompatActivity() {
         val RutaDoctor = findViewById<LinearLayout>(R.id.linearLayout2)
 
         RutaDoctor.setOnClickListener(){
-            val atencion = Intent(this,AtencionEnRuta::class.java)
+            val atencion = Intent(this,citasActivity::class.java)
             startActivity(atencion)
         }
 
