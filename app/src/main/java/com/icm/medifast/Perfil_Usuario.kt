@@ -58,7 +58,7 @@ class Perfil_Usuario : AppCompatActivity() {
         loadImage(uri)
     }
     }
-    private lateinit var myUser: Cliente
+    //private lateinit var myUser: Cliente
 
     private val database = FirebaseDatabase.getInstance()
 
@@ -94,8 +94,11 @@ class Perfil_Usuario : AppCompatActivity() {
         setEditableIfNotEmpty(binding.editTextPhone, userPhoneNumber)
 
 
-        fetchClientInfo()
-
+        //fetchClientInfo()
+        val celular = UserDashBoardActivity.myUser.celular
+        val direccion = UserDashBoardActivity.myUser.direccion
+        binding.editTextTextEmailAddress.setText(direccion)
+        binding.editTextPhone.setText(celular)
 
 
         // Verifica si tienes permiso
@@ -168,37 +171,12 @@ class Perfil_Usuario : AppCompatActivity() {
 
     private fun updateCliente(celular:String,direccion:String) {
         myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
-        myUser.celular = celular
-        myUser.direccion = direccion
-        myRef.setValue(myUser)
+        UserDashBoardActivity.myUser.celular = celular
+        UserDashBoardActivity.myUser.direccion = direccion
+        myRef.setValue(UserDashBoardActivity.myUser)
     }
 
-    private fun fetchClientInfo() {
-        myRef = database.getReference("$PATH_USERS${auth.currentUser!!.uid}")
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                myUser = dataSnapshot.getValue(Cliente::class.java)!!
-                if (myUser != null) {
-                    Log.i("nombre usuario", "Encontró usuario: ${myUser.nombre}")
-                    val celular = myUser.celular
-                    val direccion = myUser.direccion
-                    //Toast.makeText(baseContext, "$celular: $direccion", Toast.LENGTH_SHORT).show()
-                    binding.editTextTextEmailAddress.setText(direccion)
-                    binding.editTextPhone.setText(celular)
-                    if(myUser.photo != ""){
-                        downloadFile()
-                    }
-                } else {
-                    Log.w("error en la consulta", "Cliente is null")
-                }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.w("error en la consulta", databaseError.toException())
-                Toast.makeText(baseContext, "Error fetching data", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 
     private fun downloadFile() {
         val localFile = File.createTempFile("profile", "jpg")
@@ -251,9 +229,9 @@ class Perfil_Usuario : AppCompatActivity() {
         myRef = database.getReference(PATH_USERS + auth.currentUser!!.uid)
 
         // Assuming you have a field named 'profileImageUrl' in your Cliente class
-        myUser.photo = imageUrl
+        UserDashBoardActivity.myUser.photo = imageUrl
 
-        myRef.setValue(myUser)
+        myRef.setValue(UserDashBoardActivity.myUser)
             .addOnSuccessListener {
                 Log.d("Database Update", "Profile image URL updated successfully")
                 // Optionally, you can perform additional actions after updating the database
