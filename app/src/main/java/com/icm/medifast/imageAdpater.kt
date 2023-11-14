@@ -3,36 +3,55 @@ package com.icm.medifast
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Bitmap
+import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 
-class ImageAdapter(private val context: Context, private val imageList: List<Int>) : BaseAdapter() {
+class ImageAdapter(private val context: Context, private val bitmapList: MutableList<Bitmap>) : BaseAdapter() {
+
+    lateinit var layoutInflater: LayoutInflater
 
     override fun getCount(): Int {
-        return imageList.size
+        return bitmapList.size
     }
 
     override fun getItem(position: Int): Any {
-        return imageList[position]
+        return bitmapList[position]
     }
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
+    fun addBitmap(bitmap: Bitmap) {
+        bitmapList.add(bitmap)
+        notifyDataSetChanged()
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val imageView = ImageView(context)
-        imageView.setImageResource(imageList[position])
-        imageView.layoutParams = ViewGroup.LayoutParams(650, 650)  // Puedes ajustar el tamaño aquí
+        var convertView = convertView
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            imageView.elevation = 8f // Ajusta la elevación según tu preferencia
+        if (convertView == null) {
+            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            convertView = inflater.inflate(R.layout.grid_item_image, null)
         }
+
+        val imageView = convertView!!.findViewById<ImageView>(R.id.grid_image)
+        imageView.setImageBitmap(bitmapList[position])
+        imageView.layoutParams = LinearLayout.LayoutParams(900, 900)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imageView.elevation = 8f
+        }
+
         val fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 1f)
         fadeIn.duration = 1000
         fadeIn.start()
-        return imageView
+
+        return convertView
     }
 }
