@@ -95,6 +95,11 @@ class Perfil_Usuario : AppCompatActivity() {
 
 
         //fetchClientInfo()
+        if(UserDashBoardActivity.myUser.photo != ""){
+            downloadFile()
+        }
+
+
         val celular = UserDashBoardActivity.myUser.celular
         val direccion = UserDashBoardActivity.myUser.direccion
         binding.editTextTextEmailAddress.setText(direccion)
