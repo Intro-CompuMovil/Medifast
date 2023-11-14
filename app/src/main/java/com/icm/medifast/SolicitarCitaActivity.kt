@@ -9,7 +9,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.TimePicker
@@ -47,6 +49,11 @@ class SolicitarCitaActivity : AppCompatActivity() {
 
         botonCita.setOnClickListener(){
             showNotification(doctorName)
+            val fecha = findViewById<CalendarView>(R.id.Calendario)
+            val hora = findViewById<TimePicker>(R.id.timePicker)
+            Log.i("Widget fecha cita",fecha.date.toString())
+            Log.i("Widget fecha cita",hora.hour.toString())
+            Log.i("Widget fecha cita",hora.minute.toString())
         }
     }
 
