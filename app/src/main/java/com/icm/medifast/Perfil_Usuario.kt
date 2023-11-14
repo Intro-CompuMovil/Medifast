@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.icm.medifast.databinding.ActivityPerfilUsuarioBinding
 import com.icm.medifast.databinding.ActivityUserDashBoardBinding
 import com.icm.medifast.entities.Cliente
@@ -61,6 +62,8 @@ class Perfil_Usuario : AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance()
     private lateinit var myRef: DatabaseReference
+
+    private val storage = FirebaseStorage.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,10 +154,10 @@ class Perfil_Usuario : AppCompatActivity() {
 
         binding.guardar.setOnClickListener{
             val direccionText = binding.editTextTextEmailAddress.text.toString()
-            val correo = binding.editTextPhone.text.toString()
-            if(direccionText != "" || correo!= ""){
+            val celular = binding.editTextPhone.text.toString()
+            if(direccionText != "" || celular!= ""){
 
-                updateCliente(correo,direccionText)
+                updateCliente(celular,direccionText)
 
             }
         }
@@ -162,9 +165,9 @@ class Perfil_Usuario : AppCompatActivity() {
 
     }
 
-    private fun updateCliente(correo:String,direccion:String) {
+    private fun updateCliente(celular:String,direccion:String) {
         myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
-        myUser.correo = correo
+        myUser.celular = celular
         myUser.direccion = direccion
         myRef.setValue(myUser)
     }
@@ -181,6 +184,9 @@ class Perfil_Usuario : AppCompatActivity() {
                     //Toast.makeText(baseContext, "$celular: $direccion", Toast.LENGTH_SHORT).show()
                     binding.editTextTextEmailAddress.setText(direccion)
                     binding.editTextPhone.setText(celular)
+                    if(myUser.photo != ""){
+                        downloadFile()
+                    }
                 } else {
                     Log.w("error en la consulta", "Cliente is null")
                 }
@@ -193,12 +199,67 @@ class Perfil_Usuario : AppCompatActivity() {
         })
     }
 
+    private fun downloadFile() {
+        val localFile = File.createTempFile("profile", "jpg")
+        val imageRef = storage.reference.child("images/${auth.currentUser!!.uid}/profile.jpg")
+        imageRef.getFile(localFile)
+            .addOnSuccessListener { taskSnapshot ->
+                Log.i("FBApp", "succesfully downloaded")
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                binding.imageView5.setImageBitmap(bitmap)
+
+            }.addOnFailureListener { exception ->
+
+            }
+    }
+
+
     fun loadImage(imagepath:Uri?){
 
         val imagestream = contentResolver.openInputStream(imagepath!!)
         val image = BitmapFactory.decodeStream(imagestream)
         binding.imageView5.setImageBitmap(image)
 
+
+        uploadImageToFirebaseStorage(imagepath)
+    }
+
+
+
+    private fun uploadImageToFirebaseStorage(imageUri: Uri) {
+
+        var storageReference = storage.reference
+        val storageRef = storageReference.child("images/${auth.currentUser!!.uid}/profile.jpg")
+
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener { taskSnapshot ->
+                // Image uploaded successfully, you can get the download URL
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    // Now you can use 'uri' to store the download URL in your database or perform any other action
+                    Log.d("Upload", "Image uploaded successfully. Download URL: $uri")
+                    updateDatabaseWithImageUrl(uri.toString())
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Handle unsuccessful uploads
+                Log.e("Upload", "Error uploading image", exception)
+            }
+    }
+
+    private fun updateDatabaseWithImageUrl(imageUrl: String) {
+        myRef = database.getReference(PATH_USERS + auth.currentUser!!.uid)
+
+        // Assuming you have a field named 'profileImageUrl' in your Cliente class
+        myUser.photo = imageUrl
+
+        myRef.setValue(myUser)
+            .addOnSuccessListener {
+                Log.d("Database Update", "Profile image URL updated successfully")
+                // Optionally, you can perform additional actions after updating the database
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Database Update", "Error updating profile image URL", exception)
+            }
     }
 
     private fun openGallery() {
