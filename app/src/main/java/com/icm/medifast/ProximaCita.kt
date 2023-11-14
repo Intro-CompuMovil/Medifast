@@ -31,6 +31,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.icm.medifast.databinding.ActivityProximaCitaBinding
 import org.osmdroid.api.IMapController
@@ -49,6 +51,8 @@ import java.util.Date
 
 
 class ProximaCita : AppCompatActivity() {
+
+    val PATH_USERS="clientes/"
 
     private lateinit var binding: ActivityProximaCitaBinding
     //Variablers para el sensor de luz
@@ -69,7 +73,8 @@ class ProximaCita : AppCompatActivity() {
 
     }
     private val storage = FirebaseStorage.getInstance()
-
+    private lateinit var myRef: DatabaseReference
+    private val database = FirebaseDatabase.getInstance()
 
     // crear la variable para ver pedir la ubicacion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -89,6 +94,7 @@ class ProximaCita : AppCompatActivity() {
                 binding.map.overlays.add(markerPosActual)
                 val lugar = binding.ubicacion.text.toString()
                 Log.i("Lugar enviado", lugar)
+                //updateCliente(currentLocation.latitude.toString(),currentLocation.longitude.toString())
                 drawRoute(currentLocation,lugar)
                 binding.map.invalidate()
             }
@@ -358,6 +364,53 @@ class ProximaCita : AppCompatActivity() {
 //        }
     }
 
+    private fun drawRoute(start: GeoPoint, finish: GeoPoint) {
+
+        val geocoder = Geocoder(this)
+
+        try {
+            if(finish != null){
+                val routePoints = ArrayList<GeoPoint>()
+                routePoints.add(start)
+                routePoints.add(finish)
+                val road = roadManager.getRoad(routePoints)
+
+                Log.i("OSM_acticity", "Route length: ${road.mLength} klm")
+                Log.i("OSM_acticity", "Duration: ${road.mDuration / 60} min")
+                val marcadorCasa = createMarker(finish,"Hogar",R.drawable.baseline_house_24)
+                binding.map.overlays.add(marcadorCasa)
+                if (binding.map != null) {
+                    roadOverlay?.let { binding.map.overlays.remove(it) }
+                    roadOverlay = RoadManager.buildRoadOverlay(road)
+                    roadOverlay?.outlinePaint?.color = Color.RED
+                    roadOverlay?.outlinePaint?.strokeWidth = 10f
+                    binding.map.overlays.add(roadOverlay)
+                    binding.map.invalidate()
+                    Toast.makeText(this,"Route length: ${road.mLength} klm" + "Duration: ${road.mDuration / 60} min",Toast.LENGTH_LONG).show()
+                }
+            }else{
+                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error searching for location", Toast.LENGTH_SHORT).show()
+        }
+//        val routePoints = ArrayList<GeoPoint>()
+//        routePoints.add(start)
+//        routePoints.add(foundLocation)
+//        val road = roadManager.getRoad(routePoints)
+//        Log.i("OSM_acticity", "Route length: ${road.mLength} klm")
+//        Log.i("OSM_acticity", "Duration: ${road.mDuration / 60} min")
+//        if (binding.map != null) {
+//            roadOverlay?.let { binding.map.overlays.remove(it) }
+//            roadOverlay = RoadManager.buildRoadOverlay(road)
+//            roadOverlay?.outlinePaint?.color = Color.RED
+//            roadOverlay?.outlinePaint?.strokeWidth = 10f
+//            binding.map.overlays.add(roadOverlay)
+//        }
+    }
+
     fun verificarPermisoParaMapa(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -380,6 +433,13 @@ class ProximaCita : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun updateCliente(latitud:String,longitud:String) {
+        myRef = database.getReference(PATH_USERS+ UserDashBoardActivity.myUser.id)
+        UserDashBoardActivity.myUser.latitud = latitud
+        UserDashBoardActivity.myUser.longitud = longitud
+        myRef.setValue(UserDashBoardActivity.myUser)
     }
 
     // Fuincion para subir la imagen a el path donde se guarda
