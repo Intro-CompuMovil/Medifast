@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_rectangle_background">
+        <TextView
+            android:id="@+id/nombre1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nombre" />
+
+        <TextView
+            android:id="@+id/correo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/correo" />
+
+
+        <TextView
+            android:id="@+id/celular1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/celular" />
+
+        <TextView
+            android:id="@+id/direccion1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion" />
+
+        <Button
+            android:id="@+id/historial1"
+            android:layout_width="141dp"
+            android:layout_height="41dp"
+            android:text="Historial"
+            android:layout_gravity="end"
+            android:enabled="false"/>
+    </LinearLayout>
+
+
+</LinearLayout>
