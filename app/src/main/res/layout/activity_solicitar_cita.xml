@@ -26,11 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="74dp"
         android:background="@drawable/rounded_rectangle_background"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
@@ -48,11 +46,25 @@
             android:layout_height="wrap_content"
             android:text="@string/Descrpcion" />
 
-        <TimePicker
-            android:id="@+id/timePicker"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:timePickerMode="spinner" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CalendarView
+                android:id="@+id/Calendario"
+                android:layout_width="157dp"
+                android:layout_height="wrap_content" />
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
+
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/confirmButton"

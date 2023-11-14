@@ -10,4 +10,5 @@ class Cliente {
     var eps: String? = ""
     var latitud: String? = ""
     var longitud: String? = ""
+    var id:String = ""
 }

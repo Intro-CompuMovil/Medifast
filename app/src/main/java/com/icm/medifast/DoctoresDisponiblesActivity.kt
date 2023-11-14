@@ -21,6 +21,9 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private lateinit var myRef: DatabaseReference
     private lateinit var adapter: DoctoresAdapter
+    companion object{
+        lateinit var doctorTodo:Doctores
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctores_disponibles)
@@ -45,7 +48,7 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
             // Get the clicked doctor's information
             Log.d("errorenposicion", "Item at position $position clicked.")
             val selectedDoctor = doctorsList[position]
-
+            doctorTodo = selectedDoctor
             // Create an intent to open SolicitarCitaActivity
             val intent = Intent(this, SolicitarCitaActivity::class.java)
 
@@ -73,7 +76,7 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
                         Log.i("Doctoranadido" , empData.toString())
                         if (empData != null) {
                             if(empData.Eps == UserDashBoardActivity.myUser.eps)
-                            doctorsList.add(empData)
+                                doctorsList.add(empData)
                         }
                     }
 

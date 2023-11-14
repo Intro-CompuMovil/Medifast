@@ -35,7 +35,7 @@ class Registrar : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        val epsOptions = arrayOf("colsanidad", "alianza medica")
+        val epsOptions = arrayOf("colsanidad", "alianzaMedica")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, epsOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerGender.adapter = adapter
@@ -79,6 +79,7 @@ class Registrar : AppCompatActivity() {
 
                         //this part
                         myRef = database.getReference(PATH_USERS+auth.currentUser!!.uid)
+                        cliente.id= auth.currentUser!!.uid
                         myRef.setValue(cliente)
 
 
