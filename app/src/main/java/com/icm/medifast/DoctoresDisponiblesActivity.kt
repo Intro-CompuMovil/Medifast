@@ -25,7 +25,7 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctores_disponibles)
 
-        auth = Firebase.auth
+
 
 //        val doctorsList = listOf(
 //            Doctores("Adriana Juanita", "cardióloga",R.drawable.doctora1),
@@ -72,7 +72,7 @@ class DoctoresDisponiblesActivity : AppCompatActivity() {
                         val empData = empSnap.getValue(Doctores::class.java)
                         Log.i("Doctoranadido" , empData.toString())
                         if (empData != null) {
-                            if(empData.Eps == "")
+                            if(empData.Eps == UserDashBoardActivity.myUser.eps)
                             doctorsList.add(empData)
                         }
                     }

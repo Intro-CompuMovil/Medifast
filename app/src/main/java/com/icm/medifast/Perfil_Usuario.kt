@@ -60,6 +60,7 @@ class Perfil_Usuario : AppCompatActivity() {
     private lateinit var myUser: Cliente
 
     private val database = FirebaseDatabase.getInstance()
+
     private lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
