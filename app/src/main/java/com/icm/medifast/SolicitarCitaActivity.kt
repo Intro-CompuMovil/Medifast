@@ -18,11 +18,24 @@ import android.widget.TimePicker
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.icm.medifast.entities.Cita
+import java.math.BigInteger
+import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import kotlin.random.Random
+
 
 class SolicitarCitaActivity : AppCompatActivity() {
 
     private val CHANNEL_ID = "my_channel_01"
-
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var myRef: DatabaseReference
+    val PATH_USERS="citas/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solicitar_cita)
@@ -30,7 +43,7 @@ class SolicitarCitaActivity : AppCompatActivity() {
         val timePicker: TimePicker = findViewById(R.id.timePicker)
 
         // Set the time picker to display the AM/PM format
-        timePicker.setIs24HourView(true)
+        timePicker.setIs24HourView(false)
 
         val doctorName = intent.getStringExtra("doctorName")
         val doctorSpecialty = intent.getStringExtra("doctorSpecialty")
@@ -51,9 +64,31 @@ class SolicitarCitaActivity : AppCompatActivity() {
             showNotification(doctorName)
             val fecha = findViewById<CalendarView>(R.id.Calendario)
             val hora = findViewById<TimePicker>(R.id.timePicker)
-            Log.i("Widget fecha cita",fecha.date.toString())
-            Log.i("Widget fecha cita",hora.hour.toString())
-            Log.i("Widget fecha cita",hora.minute.toString())
+
+            // Obtener la fecha del CalendarView
+            val calendarFecha = Calendar.getInstance()
+            calendarFecha.timeInMillis = fecha.date
+
+            // Obtener la hora del TimePicker
+            val hour = hora.hour
+            val minute = hora.minute
+
+            // Configurar la hora en el objeto Calendar
+            calendarFecha.set(Calendar.HOUR_OF_DAY, hour)
+            calendarFecha.set(Calendar.MINUTE, minute)
+
+            // Obtener el objeto Date combinando fecha y hora
+            val fechaYHora = calendarFecha.time
+
+            // Formatear la fecha para mostrarla en el log (opcional)
+            val formattedDate = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(fechaYHora)
+
+            Log.i("Widget fecha cita", formattedDate)
+            crearCita(formattedDate)
+
+            val intent:Intent = Intent(this, AtencionEnRuta::class.java)
+            startActivity(intent)
+
         }
     }
 
@@ -110,4 +145,25 @@ class SolicitarCitaActivity : AppCompatActivity() {
         }
 
     }
+
+    fun crearCita(date:String){
+        val hash = generarHashRandom()
+        val citaNueva:Cita = Cita()
+        citaNueva.idPaciente = UserDashBoardActivity.myUser.id
+        citaNueva.idDoctor = DoctoresDisponiblesActivity.doctorTodo.id
+        citaNueva.fecha = date
+        myRef = database.getReference(PATH_USERS+ hash)
+        myRef.setValue(citaNueva)
+    }
+
+
+    fun generarHashRandom(): String {
+        val cadenaAleatoria = "cadena_aleatoria_${Random.nextInt()}"
+        val md = MessageDigest.getInstance("SHA-256")
+        val bytes = md.digest(cadenaAleatoria.toByteArray())
+        val numeroHexadecimal = BigInteger(1, bytes)
+        return numeroHexadecimal.toString(16)
+    }
+
+
 }
