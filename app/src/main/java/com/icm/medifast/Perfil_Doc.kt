@@ -61,10 +61,6 @@ class Perfil_Doc : AppCompatActivity() {
             startActivity(Pacientes)
         }
 
-        binding.horario.setOnClickListener(){
-            val intentHorario = Intent(this, Horario::class.java)
-            startActivity(intentHorario)
-        }
 
         fetchDoctorInfo()
     }

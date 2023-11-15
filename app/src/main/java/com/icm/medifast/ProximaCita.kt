@@ -211,6 +211,10 @@ class ProximaCita : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.hora.text = CitasDoctor.citaEscogidaDoctor.fecha
+        binding.textView15.text = CitasDoctor.citaEscogidaDoctor.paciente?.nombre ?: ""
+
+
     }
 
     private fun openCamera() {
