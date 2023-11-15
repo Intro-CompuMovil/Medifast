@@ -203,6 +203,12 @@ class ProximaCita : AppCompatActivity() {
             }
         }
 
+        binding.eliminarCita.setOnClickListener(){
+            cancelarCita()
+            val intent:Intent = Intent(this,Perfil_Doc::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
 
     }
 
@@ -436,6 +442,13 @@ class ProximaCita : AppCompatActivity() {
 //            roadOverlay?.outlinePaint?.strokeWidth = 10f
 //            binding.map.overlays.add(roadOverlay)
 //        }
+    }
+
+    private fun cancelarCita() {
+        val database = FirebaseDatabase.getInstance()
+        val referenciaDatos = database.getReference("citas")
+        val hash = CitasDoctor.citaEscogidaDoctor.id
+        referenciaDatos.child(hash).removeValue()
     }
 
     fun verificarPermisoParaMapa(){

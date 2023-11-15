@@ -8,6 +8,7 @@ class Cita {
     var fecha:String=""
     var doctor: Doctores? = null
     var paciente: Cliente? = null
+    var id:String = ""
 
 
 }

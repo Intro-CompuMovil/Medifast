@@ -153,8 +153,15 @@ class AtencionEnRuta : AppCompatActivity() {
         binding.textView15.text = citasActivity.citaEscogida.doctor?.nombre ?: "Adriana Juanita"
         binding.fechafield.text = citasActivity.citaEscogida.fecha
 
-
+        binding.eliminarCita.setOnClickListener(){
+            cancelarCita()
+            val intent:Intent = Intent(this,UserDashBoardActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
     }
+
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -389,6 +396,13 @@ class AtencionEnRuta : AppCompatActivity() {
         UserDashBoardActivity.myUser.latitud = latitud
         UserDashBoardActivity.myUser.longitud = longitud
         myRef.setValue(UserDashBoardActivity.myUser)
+    }
+
+    private fun cancelarCita() {
+        val database = FirebaseDatabase.getInstance()
+        val referenciaDatos = database.getReference("citas")
+        val hash = citasActivity.citaEscogida.id
+        referenciaDatos.child(hash).removeValue()
     }
 
     // Override del onResume

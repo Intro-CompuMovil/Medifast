@@ -86,7 +86,7 @@ class SolicitarCitaActivity : AppCompatActivity() {
             Log.i("Widget fecha cita", formattedDate)
             crearCita(formattedDate)
 
-            val intent:Intent = Intent(this, AtencionEnRuta::class.java)
+            val intent:Intent = Intent(this, citasActivity::class.java)
             startActivity(intent)
 
         }
@@ -152,8 +152,10 @@ class SolicitarCitaActivity : AppCompatActivity() {
         citaNueva.idPaciente = UserDashBoardActivity.myUser.id
         citaNueva.idDoctor = DoctoresDisponiblesActivity.doctorTodo.id
         citaNueva.fecha = date
+        citaNueva.id = hash
         myRef = database.getReference(PATH_USERS+ hash)
         myRef.setValue(citaNueva)
+        citasActivity.citaEscogida = citaNueva
     }
 
 

@@ -141,49 +141,21 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="375dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="56dp"
-            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:src="@drawable/iconeyeempty"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:text="Motivo:"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Brazo roto"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/cameraButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Open Camera"
             android:layout_centerInParent="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/eliminarCita"
+            android:text="Finalizar cita"
+            android:backgroundTint="@color/Eliminar"/>
 
 
     </LinearLayout>
