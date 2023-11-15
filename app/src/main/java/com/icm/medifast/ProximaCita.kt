@@ -29,6 +29,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.DatabaseReference
@@ -182,7 +183,7 @@ class ProximaCita : AppCompatActivity() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Permissions are granted, perform location-related operations.
-
+            startLocationUpdates()
             verificarPermisoParaMapa()
         } else {
             // Permissions are not granted, request permissions.
@@ -258,6 +259,19 @@ class ProximaCita : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    private fun startLocationUpdates() {
+        val locationRequest = LocationRequest.create().apply {
+            interval = 5000 // Update every 5 seconds
+            fastestInterval = 2000 // Fastest update interval
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            smallestDisplacement = 30.0f // Minimum displacement of 30 meters
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
         }
     }
 
@@ -550,5 +564,11 @@ class ProximaCita : AppCompatActivity() {
         super.onPause()
         binding.map.onPause()
         sensorManager.unregisterListener(sensorEventListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Stop location updates when the activity is destroyed
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 }
