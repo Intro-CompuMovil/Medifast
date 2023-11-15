@@ -78,6 +78,7 @@ class AtencionEnRuta : AppCompatActivity() {
                 val locationPaciente = GeoPoint(currentLocation.latitude,currentLocation.longitude)
                 if (PosDoctor != null) {
                     drawRoute(PosDoctor,locationPaciente)
+
                 }
                 else{
 
@@ -314,6 +315,17 @@ class AtencionEnRuta : AppCompatActivity() {
     private fun drawRoute(start: GeoPoint, finish: GeoPoint) {
 
         val geocoder = Geocoder(this)
+        val addresses = geocoder.getFromLocation(finish.latitude, finish.longitude, 1)
+
+        if (addresses != null) {
+            if (addresses.isNotEmpty()) {
+                val address = addresses?.get(0)
+                if (address != null) {
+                    binding.ubicacion.text = address.getAddressLine(0) ?: "Dirección no disponible"
+                    Log.i("feature name ",address.featureName )
+                }
+            }
+        }
 
         try {
             if(finish != null){
@@ -413,7 +425,7 @@ class AtencionEnRuta : AppCompatActivity() {
                     binding.map.overlays.add(marcadorPosicionInicial)
                     val lugar = binding.ubicacion.text.toString()
                     Log.i("Lugar enviado", lugar)
-                    drawRoute(currentLocation,lugar)
+                    //drawRoute(currentLocation,lugar)
                     //binding.map.invalidate()
 
             }

@@ -96,7 +96,7 @@ class ProximaCita : AppCompatActivity() {
                 val lugar = binding.ubicacion.text.toString()
                 Log.i("Lugar enviado", lugar)
                 PosDoctor = GeoPoint(currentLocation.latitude,currentLocation.longitude)
-                updateDoctor(currentLocation.latitude,currentLocation.longitude)
+                updateDoctor(PosDoctor.latitude,PosDoctor.longitude)
                 Log.i("Despues AAAAA", "Despues del update")
                 var longitudPaciente: String? = CitasDoctor.citaEscogidaDoctor.paciente?.longitud
                 var latitudPaciente: String? = CitasDoctor.citaEscogidaDoctor.paciente?.latitud
@@ -382,6 +382,18 @@ class ProximaCita : AppCompatActivity() {
     private fun drawRoute(start: GeoPoint, finish: GeoPoint) {
 
         val geocoder = Geocoder(this)
+        val addresses = geocoder.getFromLocation(finish.latitude, finish.longitude, 1)
+
+        if (addresses != null) {
+            if (addresses.isNotEmpty()) {
+                val address = addresses?.get(0)
+                if (address != null) {
+                    binding.ubicacion.text = address.getAddressLine(0) ?: "Dirección no disponible"
+                    Log.i("feature name ",address.featureName )
+                }
+            }
+        }
+
 
         try {
             if(finish != null){
@@ -443,8 +455,22 @@ class ProximaCita : AppCompatActivity() {
                     binding.map.overlays.add(marcadorPosicionInicial)
                     val lugar = binding.ubicacion.text.toString()
                     Log.i("Lugar enviado", lugar)
-                    updateDoctor(currentLocation.latitude,currentLocation.longitude)
-                    drawRoute(currentLocation,lugar)
+                    PosDoctor = GeoPoint(currentLocation.latitude,currentLocation.longitude)
+                    updateDoctor(PosDoctor.latitude,PosDoctor.longitude)
+                    var longitudPaciente: String? = CitasDoctor.citaEscogidaDoctor.paciente?.longitud
+                    var latitudPaciente: String? = CitasDoctor.citaEscogidaDoctor.paciente?.latitud
+                    var longitudPacienteNUmero = 0.0
+                    var latitudPacienteNUmero = 0.0
+                    if(longitudPaciente != null  ){
+                        longitudPacienteNUmero = longitudPaciente.toDouble()
+                    }
+                    if(latitudPaciente != null){
+                        latitudPacienteNUmero = latitudPaciente.toDouble()
+                    }
+
+                    PosCliente = GeoPoint(latitudPacienteNUmero,longitudPacienteNUmero)
+                    drawRoute(PosDoctor,PosCliente)
+                    //drawRoute(currentLocation,lugar)
                     //binding.map.invalidate()
 
             }
