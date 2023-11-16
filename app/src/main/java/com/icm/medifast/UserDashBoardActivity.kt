@@ -96,6 +96,7 @@ class UserDashBoardActivity : AppCompatActivity() {
                 myUser = dataSnapshot.getValue(Cliente::class.java)!!
                 if (myUser != null) {
                     Log.i("nombre usuario", "Encontró usuario: ${myUser.nombre}")
+                    binding.textView4.text = "Bienvenido \n ${myUser.nombre}"
 
 
                 } else {

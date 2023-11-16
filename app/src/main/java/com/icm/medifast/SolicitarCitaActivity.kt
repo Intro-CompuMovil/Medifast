@@ -86,7 +86,7 @@ class SolicitarCitaActivity : AppCompatActivity() {
             Log.i("Widget fecha cita", formattedDate)
             crearCita(formattedDate)
 
-            val intent:Intent = Intent(this, citasActivity::class.java)
+            val intent:Intent = Intent(this, UserDashBoardActivity::class.java)
             startActivity(intent)
 
         }
